@@ -9,6 +9,7 @@
 #include <string.h>
 
 #include "ciri/api/api.h"
+#include "ciri/api/grpc/grpc.h"
 #include "ciri/api/http/http.h"
 #include "ciri/core.h"
 #include "utils/handles/rand.h"
@@ -22,6 +23,7 @@ static connection_config_t db_conf;
 static core_t ciri_core;
 static iota_api_t api;
 static iota_api_http_t http;
+static iota_api_grpc_t grpc;
 static logger_id_t logger_id;
 static tangle_t tangle;
 
@@ -40,9 +42,15 @@ static retcode_t ciri_init() {
     return ret;
   }
 
-  log_info(logger_id, "Initializing API HTTP\n");
+  log_info(logger_id, "Initializing HTTP API\n");
   if ((ret = iota_api_http_init(&http, &api, &db_conf)) != RC_OK) {
-    log_critical(logger_id, "Initializing API HTTP failed\n");
+    log_critical(logger_id, "Initializing HTTP API failed\n");
+    return ret;
+  }
+
+  log_info(logger_id, "Initializing gRPC API\n");
+  if ((ret = iota_api_grpc_init(&grpc, &api)) != RC_OK) {
+    log_critical(logger_id, "Initializing gRPC API failed\n");
     return ret;
   }
 
@@ -58,9 +66,15 @@ static retcode_t ciri_start() {
     return ret;
   }
 
-  log_info(logger_id, "Starting API HTTP\n");
+  log_info(logger_id, "Starting HTTP API\n");
   if ((ret = iota_api_http_start(&http)) != RC_OK) {
-    log_critical(logger_id, "Starting API HTTP failed\n");
+    log_critical(logger_id, "Starting HTTP API failed\n");
+    return ret;
+  }
+
+  log_info(logger_id, "Starting gRPC API\n");
+  if ((ret = iota_api_grpc_start(&grpc)) != RC_OK) {
+    log_critical(logger_id, "Starting gRPC API failed\n");
     return ret;
   }
 
@@ -69,14 +83,19 @@ static retcode_t ciri_start() {
 
 static void ciri_stop(int sig) {
   if (ciri_core.running && sig == SIGINT) {
-    log_info(logger_id, "Stopping API HTTP\n");
-    if (iota_api_http_stop(&http) != RC_OK) {
-      log_error(logger_id, "Stopping API HTTP failed\n");
-    }
-
     log_info(logger_id, "Stopping cIRI core\n");
     if (core_stop(&ciri_core) != RC_OK) {
       log_error(logger_id, "Stopping cIRI core failed\n");
+    }
+
+    log_info(logger_id, "Stopping HTTP API\n");
+    if (iota_api_http_stop(&http) != RC_OK) {
+      log_error(logger_id, "Stopping HTTP API failed\n");
+    }
+
+    log_info(logger_id, "Stopping gRPC API\n");
+    if (iota_api_grpc_stop(&grpc) != RC_OK) {
+      log_error(logger_id, "Stopping gRPC API failed\n");
     }
   }
 }
@@ -84,9 +103,9 @@ static void ciri_stop(int sig) {
 static retcode_t ciri_destroy() {
   retcode_t ret = RC_OK;
 
-  log_info(logger_id, "Destroying API HTTP\n");
-  if ((ret = iota_api_http_destroy(&http)) != RC_OK) {
-    log_error(logger_id, "Destroying API HTTP failed\n");
+  log_info(logger_id, "Destroying cIRI core\n");
+  if ((ret = core_destroy(&ciri_core)) != RC_OK) {
+    log_error(logger_id, "Destroying cIRI core failed\n");
   }
 
   log_info(logger_id, "Destroying API\n");
@@ -94,9 +113,14 @@ static retcode_t ciri_destroy() {
     log_error(logger_id, "Destroying API failed\n");
   }
 
-  log_info(logger_id, "Destroying cIRI core\n");
-  if ((ret = core_destroy(&ciri_core)) != RC_OK) {
-    log_error(logger_id, "Destroying cIRI core failed\n");
+  log_info(logger_id, "Destroying HTTP API\n");
+  if ((ret = iota_api_http_destroy(&http)) != RC_OK) {
+    log_error(logger_id, "Destroying HTTP API failed\n");
+  }
+
+  log_info(logger_id, "Destroying gRPC API\n");
+  if ((ret = iota_api_grpc_destroy(&grpc)) != RC_OK) {
+    log_error(logger_id, "Destroying gRPC API failed\n");
   }
 
   return ret;
