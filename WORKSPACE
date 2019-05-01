@@ -1,6 +1,21 @@
 workspace(name = "org_iota_entangled")
 
 load("@bazel_tools//tools/build_defs/repo:git.bzl", "git_repository", "new_git_repository")
+load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
+
+http_archive(
+    name = "com_github_grpc_grpc",
+    sha256 = "ba8b08a697b66e14af35da07753583cf32ff3d14dcd768f91b1bbe2e6c07c349",
+    strip_prefix = "grpc-1.20.1",
+    url = "https://github.com/grpc/grpc/archive/v1.20.1.tar.gz",
+)
+
+http_archive(
+    name = "com_google_protobuf",
+    sha256 = "f1748989842b46fa208b2a6e4e2785133cfcc3e4d43c17fecb023733f0f5443f",
+    strip_prefix = "protobuf-3.7.1",
+    url = "https://github.com/protocolbuffers/protobuf/archive/v3.7.1.tar.gz",
+)
 
 git_repository(
     name = "rules_iota",
@@ -53,6 +68,9 @@ apple_rules_dependencies()
 load("@rules_iota//:defs.bzl", "iota_deps")
 load("@iota_toolchains//:toolchains.bzl", "setup_toolchains")
 load("//tools:snapshot.bzl", "fetch_snapshot_files")
+load("@com_github_grpc_grpc//bazel:grpc_deps.bzl", "grpc_deps")
+
+grpc_deps()
 
 iota_deps()
 
