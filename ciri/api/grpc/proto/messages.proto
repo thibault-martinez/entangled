@@ -1,0 +1,93 @@
+syntax = "proto3";
+
+package api.rpc;
+
+message addNeighborsRequest {
+}
+
+message addNeighborsResponse {
+}
+
+message attachToTangleRequest {
+}
+
+message attachToTangleResponse {
+}
+
+message broadcastTransactionsRequest {
+}
+
+message broadcastTransactionsResponse {
+}
+
+message checkConsistencyRequest {
+}
+
+message checkConsistencyResponse {
+}
+
+message findTransactionsRequest {
+}
+
+message findTransactionsResponse {
+}
+
+message getBalancesRequest {
+}
+
+message getBalancesResponse {
+}
+
+message getInclusionStatesRequest {
+}
+
+message getInclusionStatesResponse {
+}
+
+message getMissingTransactionsRequest {
+}
+
+message getMissingTransactionsResponse {
+}
+
+message getNeighborsRequest {
+}
+
+message getNeighborsResponse {
+}
+
+message getNodeInfoRequest {
+}
+
+message getNodeInfoResponse {
+}
+
+message getTipsRequest {
+}
+
+message getTipsResponse {
+}
+
+message getTransactionsToApproveRequest {
+}
+
+message getTransactionsToApproveResponse {
+}
+
+message getTrytesRequest {
+}
+
+message getTrytesResponse {
+}
+
+message removeNeighborsRequest {
+}
+
+message removeNeighborsResponse {
+}
+
+message storeTransactionsRequest {
+}
+
+message storeTransactionsResponse {
+}

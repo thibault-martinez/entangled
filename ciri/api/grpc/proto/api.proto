@@ -1,0 +1,36 @@
+syntax = "proto3";
+
+package api.rpc;
+import "ciri/api/grpc/proto/messages.proto";
+
+service API {
+ rpc addNeighbors (addNeighborsRequest) returns (addNeighborsResponse);
+
+ rpc attachToTangle (attachToTangleRequest) returns (attachToTangleResponse);
+
+ rpc broadcastTransactions (broadcastTransactionsRequest) returns (broadcastTransactionsResponse);
+
+ rpc checkConsistency (checkConsistencyRequest) returns (checkConsistencyResponse);
+
+ rpc findTransactions (findTransactionsRequest) returns (findTransactionsResponse);
+
+ rpc getBalances (getBalancesRequest) returns (getBalancesResponse);
+
+ rpc getInclusionStates (getInclusionStatesRequest) returns (getInclusionStatesResponse);
+
+ rpc getMissingTransactions (getMissingTransactionsRequest) returns (getMissingTransactionsResponse);
+
+ rpc getNeighbors (getNeighborsRequest) returns (getNeighborsResponse);
+
+ rpc getNodeInfo (getNodeInfoRequest) returns (getNodeInfoResponse);
+
+ rpc getTips (getTipsRequest) returns (getTipsResponse);
+
+ rpc getTransactionsToApprove (getTransactionsToApproveRequest) returns (getTransactionsToApproveResponse);
+
+ rpc getTrytes (getTrytesRequest) returns (getTrytesResponse);
+
+ rpc removeNeighbors (removeNeighborsRequest) returns (removeNeighborsResponse);
+
+ rpc storeTransactions (storeTransactionsRequest) returns (storeTransactionsResponse);
+}
