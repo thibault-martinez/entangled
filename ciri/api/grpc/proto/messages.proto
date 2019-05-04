@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package api.rpc;
+package API.RPC;
 
 message addNeighborsRequest {
   repeated string uris = 1;

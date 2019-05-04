@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package api.rpc;
+package API.RPC;
 import "ciri/api/grpc/proto/messages.proto";
 
 service API {
