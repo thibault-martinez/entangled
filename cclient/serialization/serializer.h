@@ -32,6 +32,7 @@ extern "C" {
  */
 typedef enum serializer_type_e {
   SR_JSON = 0,      /**< USE JSON serializer */
+  SR_PROTO = 1,     /**< USE Protocol Buffers serializer */
   SR_UNIMPLEMENTED, /**< Unimplemented */
 } serializer_type_t;
 

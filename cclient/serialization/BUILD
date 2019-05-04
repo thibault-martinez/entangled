@@ -16,6 +16,23 @@ cc_library(
 )
 
 cc_library(
+    name = "serializer_proto",
+    srcs = glob([
+        "proto/*.cc",
+    ]),
+    hdrs = glob([
+        "proto/*.h",
+    ]),
+    visibility = ["//visibility:public"],
+    deps = [
+        ":serializer",
+        "//ciri/api/grpc/proto:messages_cc_proto",
+        "@com_github_grpc_grpc//:grpc++",
+    ],
+    alwayslink = True,
+)
+
+cc_library(
     name = "serializer",
     hdrs = glob([
         "serializer.h",
