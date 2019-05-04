@@ -18,8 +18,9 @@ extern "C" {
 
 typedef struct iota_api_grpc_s {
   bool running;
-  iota_api_t *api;
+  iota_api_t* api;
   serializer_t serializer;
+  void* server;
 } iota_api_grpc_t;
 
 /**
@@ -30,7 +31,7 @@ typedef struct iota_api_grpc_s {
  *
  * @return a status code
  */
-retcode_t iota_api_grpc_init(iota_api_grpc_t *const grpc, iota_api_t *const api);
+retcode_t iota_api_grpc_init(iota_api_grpc_t* const grpc, iota_api_t* const api);
 
 /**
  * Starts a gRPC API
@@ -39,7 +40,7 @@ retcode_t iota_api_grpc_init(iota_api_grpc_t *const grpc, iota_api_t *const api)
  *
  * @return a status code
  */
-retcode_t iota_api_grpc_start(iota_api_grpc_t *const grpc);
+retcode_t iota_api_grpc_start(iota_api_grpc_t* const grpc);
 
 /**
  * Stops a gRPC API
@@ -48,7 +49,7 @@ retcode_t iota_api_grpc_start(iota_api_grpc_t *const grpc);
  *
  * @return a status code
  */
-retcode_t iota_api_grpc_stop(iota_api_grpc_t *const grpc);
+retcode_t iota_api_grpc_stop(iota_api_grpc_t* const grpc);
 
 /**
  * Destroys a gRPC API
@@ -57,7 +58,7 @@ retcode_t iota_api_grpc_stop(iota_api_grpc_t *const grpc);
  *
  * @return a status code
  */
-retcode_t iota_api_grpc_destroy(iota_api_grpc_t *const grpc);
+retcode_t iota_api_grpc_destroy(iota_api_grpc_t* const grpc);
 
 #ifdef __cplusplus
 }
