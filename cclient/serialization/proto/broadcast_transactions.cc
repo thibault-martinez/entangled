@@ -7,7 +7,7 @@
 
 #include "cclient/serialization/proto/broadcast_transactions.h"
 
-retcode_t proto_broadcast_transactions_deserialize_request(const char *const obj,
+retcode_t proto_broadcast_transactions_deserialize_request(char const *const obj,
                                                            broadcast_transactions_req_t *const out) {
   retcode_t ret = RC_OK;
 

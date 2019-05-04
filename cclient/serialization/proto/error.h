@@ -15,7 +15,7 @@
 extern "C" {
 #endif
 
-retcode_t proto_error_serialize_response(error_res_t *const obj, char_buffer_t *out);
+retcode_t proto_error_serialize_response(error_res_t const *const obj, char_buffer_t *out);
 
 #ifdef __cplusplus
 }

@@ -15,8 +15,9 @@
 extern "C" {
 #endif
 
-retcode_t proto_broadcast_transactions_serialize_request(broadcast_transactions_req_t *const req, char_buffer_t *out);
-retcode_t proto_broadcast_transactions_deserialize_request(const char *const obj,
+retcode_t proto_broadcast_transactions_serialize_request(broadcast_transactions_req_t const *const req,
+                                                         char_buffer_t *out);
+retcode_t proto_broadcast_transactions_deserialize_request(char const *const obj,
                                                            broadcast_transactions_req_t *const out);
 
 #ifdef __cplusplus
