@@ -30,7 +30,11 @@ service API {
 
  rpc getTrytes (getTrytesRequest) returns (getTrytesResponse);
 
+ rpc interruptAttachingToTangle (interruptAttachingToTangleRequest) returns (interruptAttachingToTangleResponse);
+
  rpc removeNeighbors (removeNeighborsRequest) returns (removeNeighborsResponse);
 
  rpc storeTransactions (storeTransactionsRequest) returns (storeTransactionsResponse);
+
+ rpc wereAddressesSpentFrom (wereAddressesSpentFromRequest) returns (wereAddressesSpentFromResponse);
 }

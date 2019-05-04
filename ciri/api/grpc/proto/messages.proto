@@ -3,91 +3,150 @@ syntax = "proto3";
 package api.rpc;
 
 message addNeighborsRequest {
+  repeated string uris = 1;
 }
-
 message addNeighborsResponse {
+  uint32 addedNeighbors = 1;
 }
 
 message attachToTangleRequest {
+  string trunkTransaction = 1;
+  string branchTransaction = 2;
+  uint32 minWeightMagnitude = 3;
+  repeated string trytes = 4;
 }
-
 message attachToTangleResponse {
+  repeated string trytes = 1;
 }
 
 message broadcastTransactionsRequest {
+  string trytes = 1;
 }
-
 message broadcastTransactionsResponse {
 }
 
 message checkConsistencyRequest {
+  repeated string tails = 1;
 }
-
 message checkConsistencyResponse {
+  bool state = 1;
+  string info = 2;
 }
 
 message findTransactionsRequest {
+  repeated string bundles = 1;
+  repeated string addresses = 2;
+  repeated string tags = 3;
+  repeated string approvees = 4;
 }
-
 message findTransactionsResponse {
+  repeated string hashes = 1;
 }
 
 message getBalancesRequest {
+  repeated string addresses = 1;
+  uint32 threshold = 2;
+  repeated string tips = 3;
 }
-
 message getBalancesResponse {
+  repeated uint64 balances = 1;
+  repeated string references = 2;
+  uint64 milestoneIndex = 3;
 }
 
 message getInclusionStatesRequest {
+  repeated string transactions = 1;
+  repeated string tips = 2;
 }
-
 message getInclusionStatesResponse {
+  repeated bool states = 1;
 }
 
 message getMissingTransactionsRequest {
 }
-
 message getMissingTransactionsResponse {
+  repeated string hashes = 1;
 }
 
 message getNeighborsRequest {
 }
-
 message getNeighborsResponse {
+  message neighbor {
+    string address = 1;
+    uint64 numberOfAllTransactions = 2;
+    uint64 numberOfRandomTransactionRequests = 3;
+    uint64 numberOfNewTransactions = 4;
+    uint64 numberOfInvalidTransactions = 5;
+    uint64 numberOfStaleTransactions = 6;
+    uint64 numberOfSentTransactions = 7;
+    string connectiontype = 8;
+  }
+  repeated neighbor neighbors = 1;
 }
 
 message getNodeInfoRequest {
 }
-
 message getNodeInfoResponse {
+  string appName = 1;
+  string appVersion = 2;
+  uint64 latestMilestone = 3;
+  uint64 latestMilestoneIndex = 4;
+  uint64 latestSolidSubtangleMilestone = 5;
+  uint64 latestSolidSubtangleMilestoneIndex = 6;
+  uint64 milestoneStartIndex = 7;
+  uint64 lastSnapshottedMilestoneIndex = 8;
+  uint32 neighbors = 9;
+  uint32 packetsQueueSize = 10;
+  uint64 time = 11;
+  uint32 tips = 12;
+  uint32 transactionsToRequest = 13;
+  repeated string features = 14;
+  string coordinatorAddress = 15;
 }
 
 message getTipsRequest {
 }
-
 message getTipsResponse {
+  repeated string hashes = 1;
 }
 
 message getTransactionsToApproveRequest {
+  uint32 depth = 1;
+  string reference = 2;
 }
-
 message getTransactionsToApproveResponse {
+  string trunkTransaction = 1;
+  string branchTransaction = 2;
 }
 
 message getTrytesRequest {
+  repeated string hashes = 1;
+}
+message getTrytesResponse {
+  repeated string trytes = 1;
 }
 
-message getTrytesResponse {
+message interruptAttachingToTangleRequest {
+}
+message interruptAttachingToTangleResponse {
 }
 
 message removeNeighborsRequest {
+  repeated string uris = 1;
 }
-
 message removeNeighborsResponse {
+  uint32 removedNeighbors = 1;
 }
 
 message storeTransactionsRequest {
+  repeated string trytes = 1;
+}
+message storeTransactionsResponse {
 }
 
-message storeTransactionsResponse {
+message wereAddressesSpentFromRequest {
+  repeated string addresses = 1;
+}
+message wereAddressesSpentFromResponse {
+  repeated bool states = 1;
 }
