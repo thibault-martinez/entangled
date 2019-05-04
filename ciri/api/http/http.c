@@ -16,7 +16,7 @@
 #include "ciri/api/http/http.h"
 #include "utils/logger_helper.h"
 
-#define API_HTTP_LOGGER_ID "api_http"
+#define HTTP_API_LOGGER_ID "http_api"
 
 static logger_id_t logger_id;
 static _Thread_local tangle_t *tangle;
@@ -609,7 +609,7 @@ retcode_t iota_api_http_init(iota_api_http_t *const http, iota_api_t *const api,
     return RC_NULL_PARAM;
   }
 
-  logger_id = logger_helper_enable(API_HTTP_LOGGER_ID, LOGGER_DEBUG, true);
+  logger_id = logger_helper_enable(HTTP_API_LOGGER_ID, LOGGER_DEBUG, true);
 
   http->running = false;
   http->api = api;
