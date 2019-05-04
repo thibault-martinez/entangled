@@ -18,7 +18,7 @@ extern "C" {
 #include "cclient/serialization/serializer.h"
 
 retcode_t json_get_missing_transactions_serialize_response(get_missing_transactions_res_t const* const res,
-                                                           char_buffer_t* out);
+                                                           void* const output);
 
 #ifdef __cplusplus
 }

@@ -19,10 +19,11 @@ extern "C" {
 #include "cclient/serialization/json/helpers.h"
 #include "cclient/serialization/serializer.h"
 
-retcode_t json_get_inclusion_states_serialize_request(get_inclusion_states_req_t const* const req, char_buffer_t* out);
-retcode_t json_get_inclusion_states_deserialize_request(char const* const obj, get_inclusion_states_req_t* const req);
-retcode_t json_get_inclusion_states_serialize_response(get_inclusion_states_res_t const* const res, char_buffer_t* out);
-retcode_t json_get_inclusion_states_deserialize_response(char const* const obj, get_inclusion_states_res_t* const res);
+retcode_t json_get_inclusion_states_serialize_request(get_inclusion_states_req_t const* const req, void* const output);
+retcode_t json_get_inclusion_states_deserialize_request(void const* const input, get_inclusion_states_req_t* const req);
+retcode_t json_get_inclusion_states_serialize_response(get_inclusion_states_res_t const* const res, void* const output);
+retcode_t json_get_inclusion_states_deserialize_response(void const* const input,
+                                                         get_inclusion_states_res_t* const res);
 
 #ifdef __cplusplus
 }

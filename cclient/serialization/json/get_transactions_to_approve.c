@@ -10,7 +10,7 @@
 #include "cclient/serialization/json/logger.h"
 
 retcode_t json_get_transactions_to_approve_serialize_request(get_transactions_to_approve_req_t const *const obj,
-                                                             char_buffer_t *out) {
+                                                             void *const output) {
   retcode_t ret = RC_OK;
   char const *json_text = NULL;
 
@@ -35,7 +35,7 @@ retcode_t json_get_transactions_to_approve_serialize_request(get_transactions_to
 
   json_text = cJSON_PrintUnformatted(json_root);
   if (json_text) {
-    ret = char_buffer_set(out, json_text);
+    ret = char_buffer_set(output, json_text);
     cJSON_free((void *)json_text);
   }
 
@@ -44,13 +44,13 @@ done:
   return ret;
 }
 
-retcode_t json_get_transactions_to_approve_deserialize_request(char const *const obj,
+retcode_t json_get_transactions_to_approve_deserialize_request(void const *const input,
                                                                get_transactions_to_approve_req_t *out) {
   retcode_t ret = RC_OK;
-  cJSON *json_obj = cJSON_Parse(obj);
+  cJSON *json_obj = cJSON_Parse(input);
   cJSON *json_item = NULL;
 
-  log_debug(json_logger_id, "[%s:%d] %s\n", __func__, __LINE__, obj);
+  log_debug(json_logger_id, "[%s:%d] %s\n", __func__, __LINE__, input);
   JSON_CHECK_ERROR(json_obj, json_item, json_logger_id);
 
   ret = json_get_uint32(json_obj, "depth", &out->depth);
@@ -71,7 +71,7 @@ end:
 }
 
 retcode_t json_get_transactions_to_approve_serialize_response(get_transactions_to_approve_res_t const *const obj,
-                                                              char_buffer_t *out) {
+                                                              void *const output) {
   retcode_t ret = RC_OK;
   char const *json_text = NULL;
 
@@ -94,7 +94,7 @@ retcode_t json_get_transactions_to_approve_serialize_response(get_transactions_t
 
   json_text = cJSON_PrintUnformatted(json_root);
   if (json_text) {
-    ret = char_buffer_set(out, json_text);
+    ret = char_buffer_set(output, json_text);
     cJSON_free((void *)json_text);
   }
 
@@ -103,13 +103,13 @@ done:
   return ret;
 }
 
-retcode_t json_get_transactions_to_approve_deserialize_response(char const *const obj,
+retcode_t json_get_transactions_to_approve_deserialize_response(void const *const input,
                                                                 get_transactions_to_approve_res_t *out) {
   retcode_t ret = RC_OK;
-  cJSON *json_obj = cJSON_Parse(obj);
+  cJSON *json_obj = cJSON_Parse(input);
   cJSON *json_item = NULL;
 
-  log_debug(json_logger_id, "[%s:%d] %s\n", __func__, __LINE__, obj);
+  log_debug(json_logger_id, "[%s:%d] %s\n", __func__, __LINE__, input);
   JSON_CHECK_ERROR(json_obj, json_item, json_logger_id);
 
   ret = json_string_hash_to_flex_trits(json_obj, "trunkTransaction", out->trunk);

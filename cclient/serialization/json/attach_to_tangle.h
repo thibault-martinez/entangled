@@ -18,11 +18,10 @@ extern "C" {
 #include "cclient/response/attach_to_tangle.h"
 #include "cclient/serialization/serializer.h"
 
-retcode_t json_attach_to_tangle_serialize_request(const attach_to_tangle_req_t *const obj, char_buffer_t *out);
-retcode_t json_attach_to_tangle_serialize_response(const attach_to_tangle_res_t *const obj, char_buffer_t *out);
-
-retcode_t json_attach_to_tangle_deserialize_request(const char *const obj, attach_to_tangle_req_t *const out);
-retcode_t json_attach_to_tangle_deserialize_response(const char *const obj, attach_to_tangle_res_t *const out);
+retcode_t json_attach_to_tangle_serialize_request(const attach_to_tangle_req_t *const obj, void *const output);
+retcode_t json_attach_to_tangle_serialize_response(const attach_to_tangle_res_t *const obj, void *const output);
+retcode_t json_attach_to_tangle_deserialize_request(void const *const input, attach_to_tangle_req_t *const out);
+retcode_t json_attach_to_tangle_deserialize_response(void const *const input, attach_to_tangle_res_t *const out);
 
 #ifdef __cplusplus
 }

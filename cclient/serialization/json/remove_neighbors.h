@@ -18,13 +18,13 @@ extern "C" {
 #include "cclient/response/remove_neighbors.h"
 #include "cclient/serialization/serializer.h"
 
-retcode_t json_remove_neighbors_serialize_request(remove_neighbors_req_t const* const req, char_buffer_t* out);
+retcode_t json_remove_neighbors_serialize_request(remove_neighbors_req_t const* const req, void* const output);
 
-retcode_t json_remove_neighbors_deserialize_request(char const* const obj, remove_neighbors_req_t* req);
+retcode_t json_remove_neighbors_deserialize_request(void const* const input, remove_neighbors_req_t* req);
 
-retcode_t json_remove_neighbors_serialize_response(remove_neighbors_res_t const* const res, char_buffer_t* out);
+retcode_t json_remove_neighbors_serialize_response(remove_neighbors_res_t const* const res, void* const output);
 
-retcode_t json_remove_neighbors_deserialize_response(char const* const obj, remove_neighbors_res_t* res);
+retcode_t json_remove_neighbors_deserialize_response(void const* const input, remove_neighbors_res_t* res);
 
 #ifdef __cplusplus
 }

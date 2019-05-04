@@ -18,10 +18,10 @@ extern "C" {
 #include "cclient/response/find_transactions.h"
 #include "cclient/serialization/serializer.h"
 
-retcode_t json_find_transactions_serialize_request(find_transactions_req_t const* const obj, char_buffer_t* out);
-retcode_t json_find_transactions_deserialize_request(char const* const obj, find_transactions_req_t* out);
-retcode_t json_find_transactions_serialize_response(find_transactions_res_t const* const obj, char_buffer_t* out);
-retcode_t json_find_transactions_deserialize_response(char const* const obj, find_transactions_res_t* out);
+retcode_t json_find_transactions_serialize_request(find_transactions_req_t const* const obj, void* const output);
+retcode_t json_find_transactions_deserialize_request(void const* const input, find_transactions_req_t* out);
+retcode_t json_find_transactions_serialize_response(find_transactions_res_t const* const obj, void* const output);
+retcode_t json_find_transactions_deserialize_response(void const* const input, find_transactions_res_t* out);
 
 #ifdef __cplusplus
 }

@@ -9,7 +9,7 @@
 #include "cclient/serialization/json/helpers.h"
 #include "cclient/serialization/json/logger.h"
 
-retcode_t json_error_serialize_response(error_res_t const *const obj, char_buffer_t *out) {
+retcode_t json_error_serialize_response(error_res_t const *const obj, void *const output) {
   retcode_t ret = RC_OK;
   char const *json_text = NULL;
   log_debug(json_logger_id, "[%s:%d]\n", __func__, __LINE__);
@@ -24,7 +24,7 @@ retcode_t json_error_serialize_response(error_res_t const *const obj, char_buffe
 
   json_text = cJSON_PrintUnformatted(json_root);
   if (json_text) {
-    char_buffer_set(out, json_text);
+    char_buffer_set(output, json_text);
     cJSON_free((void *)json_text);
   }
 

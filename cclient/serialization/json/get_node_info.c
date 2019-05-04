@@ -24,15 +24,15 @@ static char const *transactions_to_request = "transactionsToRequest";
 static char const *features = "features";
 static char const *coordinator_address = "coordinatorAddress";
 
-retcode_t json_get_node_info_serialize_request(char_buffer_t *out) {
+retcode_t json_get_node_info_serialize_request(void *const output) {
   retcode_t ret = RC_OK;
   char const *req_text = "{\"command\":\"getNodeInfo\"}";
   log_debug(json_logger_id, "[%s:%d]\n", __func__, __LINE__);
-  ret = char_buffer_set(out, req_text);
+  ret = char_buffer_set(output, req_text);
   return ret;
 }
 
-retcode_t json_get_node_info_serialize_response(get_node_info_res_t const *const obj, char_buffer_t *out) {
+retcode_t json_get_node_info_serialize_response(get_node_info_res_t const *const obj, void *const output) {
   retcode_t ret = RC_OK;
   char const *json_text = NULL;
   log_debug(json_logger_id, "[%s:%d]\n", __func__, __LINE__);
@@ -79,7 +79,7 @@ retcode_t json_get_node_info_serialize_response(get_node_info_res_t const *const
 
   json_text = cJSON_PrintUnformatted(json_root);
   if (json_text) {
-    char_buffer_set(out, json_text);
+    char_buffer_set(output, json_text);
     cJSON_free((void *)json_text);
   }
 
@@ -88,12 +88,12 @@ done:
   return ret;
 }
 
-retcode_t json_get_node_info_deserialize_response(char const *const obj, get_node_info_res_t *out) {
+retcode_t json_get_node_info_deserialize_response(void const *const input, get_node_info_res_t *out) {
   retcode_t ret = RC_OK;
-  cJSON *json_obj = cJSON_Parse(obj);
+  cJSON *json_obj = cJSON_Parse(input);
   cJSON *json_item = NULL;
 
-  log_debug(json_logger_id, "[%s:%d] %s\n", __func__, __LINE__, obj);
+  log_debug(json_logger_id, "[%s:%d] %s\n", __func__, __LINE__, input);
   JSON_CHECK_ERROR(json_obj, json_item, json_logger_id);
 
   ret = json_get_string(json_obj, app_name, out->app_name);

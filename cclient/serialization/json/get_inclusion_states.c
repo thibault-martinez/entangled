@@ -9,7 +9,7 @@
 #include "cclient/serialization/json/helpers.h"
 #include "cclient/serialization/json/logger.h"
 
-retcode_t json_get_inclusion_states_serialize_request(get_inclusion_states_req_t const *const req, char_buffer_t *out) {
+retcode_t json_get_inclusion_states_serialize_request(get_inclusion_states_req_t const *const req, void *const output) {
   retcode_t ret = RC_OK;
   char const *json_text = NULL;
   log_debug(json_logger_id, "[%s:%d]\n", __func__, __LINE__);
@@ -33,7 +33,7 @@ retcode_t json_get_inclusion_states_serialize_request(get_inclusion_states_req_t
 
   json_text = cJSON_PrintUnformatted(json_root);
   if (json_text) {
-    ret = char_buffer_set(out, json_text);
+    ret = char_buffer_set(output, json_text);
     cJSON_free((void *)json_text);
   }
 
@@ -42,12 +42,13 @@ done:
   return ret;
 }
 
-retcode_t json_get_inclusion_states_deserialize_request(char const *const obj, get_inclusion_states_req_t *const req) {
+retcode_t json_get_inclusion_states_deserialize_request(void const *const input,
+                                                        get_inclusion_states_req_t *const req) {
   retcode_t ret = RC_OK;
-  cJSON *json_obj = cJSON_Parse(obj);
+  cJSON *json_obj = cJSON_Parse(input);
   cJSON *json_item = NULL;
 
-  log_debug(json_logger_id, "[%s:%d] %s\n", __func__, __LINE__, obj);
+  log_debug(json_logger_id, "[%s:%d] %s\n", __func__, __LINE__, input);
   JSON_CHECK_ERROR(json_obj, json_item, json_logger_id);
 
   ret = json_array_to_hash243_queue(json_obj, "transactions", &req->transactions);
@@ -65,7 +66,7 @@ done:
 }
 
 retcode_t json_get_inclusion_states_serialize_response(get_inclusion_states_res_t const *const res,
-                                                       char_buffer_t *out) {
+                                                       void *const output) {
   retcode_t ret = RC_OK;
   char const *json_text = NULL;
 
@@ -83,7 +84,7 @@ retcode_t json_get_inclusion_states_serialize_response(get_inclusion_states_res_
 
   json_text = cJSON_PrintUnformatted(json_root);
   if (json_text) {
-    ret = char_buffer_set(out, json_text);
+    ret = char_buffer_set(output, json_text);
     cJSON_free((void *)json_text);
   }
 
@@ -92,12 +93,13 @@ done:
   return ret;
 }
 
-retcode_t json_get_inclusion_states_deserialize_response(char const *const obj, get_inclusion_states_res_t *const res) {
+retcode_t json_get_inclusion_states_deserialize_response(void const *const input,
+                                                         get_inclusion_states_res_t *const res) {
   retcode_t ret = RC_OK;
-  cJSON *json_obj = cJSON_Parse(obj);
+  cJSON *json_obj = cJSON_Parse(input);
   cJSON *json_item = NULL;
 
-  log_debug(json_logger_id, "[%s:%d] %s\n", __func__, __LINE__, obj);
+  log_debug(json_logger_id, "[%s:%d] %s\n", __func__, __LINE__, input);
   JSON_CHECK_ERROR(json_obj, json_item, json_logger_id);
 
   if (!res->states) {

@@ -9,7 +9,7 @@
 #include "cclient/serialization/json/helpers.h"
 #include "cclient/serialization/json/logger.h"
 
-retcode_t json_find_transactions_serialize_request(find_transactions_req_t const* const obj, char_buffer_t* out) {
+retcode_t json_find_transactions_serialize_request(find_transactions_req_t const* const obj, void* const output) {
   retcode_t ret = RC_OK;
   char const* json_text = NULL;
   log_debug(json_logger_id, "[%s:%d]\n", __func__, __LINE__);
@@ -56,7 +56,7 @@ retcode_t json_find_transactions_serialize_request(find_transactions_req_t const
 
   json_text = cJSON_PrintUnformatted(json_root);
   if (json_text) {
-    ret = char_buffer_set(out, json_text);
+    ret = char_buffer_set(output, json_text);
     cJSON_free((void*)json_text);
   }
 
@@ -65,12 +65,12 @@ end:
   return ret;
 }
 
-retcode_t json_find_transactions_deserialize_request(char const* const obj, find_transactions_req_t* out) {
+retcode_t json_find_transactions_deserialize_request(void const* const input, find_transactions_req_t* out) {
   retcode_t ret = RC_OK;
-  cJSON* json_obj = cJSON_Parse(obj);
+  cJSON* json_obj = cJSON_Parse(input);
   cJSON* json_item = NULL;
 
-  log_debug(json_logger_id, "[%s:%d] %s\n", __func__, __LINE__, obj);
+  log_debug(json_logger_id, "[%s:%d] %s\n", __func__, __LINE__, (char*)input);
   JSON_CHECK_ERROR(json_obj, json_item, json_logger_id);
 
   if (!(cJSON_HasObjectItem(json_obj, "bundles") || cJSON_HasObjectItem(json_obj, "addresses") ||
@@ -112,7 +112,7 @@ end:
   return ret;
 }
 
-retcode_t json_find_transactions_serialize_response(find_transactions_res_t const* const obj, char_buffer_t* out) {
+retcode_t json_find_transactions_serialize_response(find_transactions_res_t const* const obj, void* const output) {
   retcode_t ret = RC_OK;
   char const* json_text = NULL;
   log_debug(json_logger_id, "[%s:%d]\n", __func__, __LINE__);
@@ -131,7 +131,7 @@ retcode_t json_find_transactions_serialize_response(find_transactions_res_t cons
 
   json_text = cJSON_PrintUnformatted(json_root);
   if (json_text) {
-    ret = char_buffer_set(out, json_text);
+    ret = char_buffer_set(output, json_text);
     cJSON_free((void*)json_text);
   }
 
@@ -140,12 +140,12 @@ end:
   return ret;
 }
 
-retcode_t json_find_transactions_deserialize_response(char const* const obj, find_transactions_res_t* out) {
+retcode_t json_find_transactions_deserialize_response(void const* const input, find_transactions_res_t* out) {
   retcode_t ret = RC_OK;
-  cJSON* json_obj = cJSON_Parse(obj);
+  cJSON* json_obj = cJSON_Parse(input);
   cJSON* json_item = NULL;
 
-  log_debug(json_logger_id, "[%s:%d] %s\n", __func__, __LINE__, obj);
+  log_debug(json_logger_id, "[%s:%d] %s\n", __func__, __LINE__, (char*)input);
   JSON_CHECK_ERROR(json_obj, json_item, json_logger_id);
 
   ret = json_array_to_hash243_queue(json_obj, "hashes", &out->hashes);

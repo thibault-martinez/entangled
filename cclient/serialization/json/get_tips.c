@@ -9,18 +9,16 @@
 #include "cclient/serialization/json/helpers.h"
 #include "cclient/serialization/json/logger.h"
 
-retcode_t json_get_tips_serialize_request(char_buffer_t *out) {
+retcode_t json_get_tips_serialize_request(void *const output) {
   retcode_t ret = RC_OK;
-  const char *req_text = "{\"command\":\"getTips\"}";
+  const char *json_text = "{\"command\":\"getTips\"}";
   log_debug(json_logger_id, "[%s:%d]\n", __func__, __LINE__);
-  ret = char_buffer_allocate(out, strlen(req_text));
-  if (ret == RC_OK) {
-    strcpy(out->data, req_text);
-  }
+  ret = char_buffer_set(output, json_text);
+
   return ret;
 }
 
-retcode_t json_get_tips_serialize_response(get_tips_res_t const *const res, char_buffer_t *out) {
+retcode_t json_get_tips_serialize_response(get_tips_res_t const *const res, void *const output) {
   retcode_t ret = RC_OK;
   char const *json_text = NULL;
 
@@ -37,7 +35,7 @@ retcode_t json_get_tips_serialize_response(get_tips_res_t const *const res, char
 
   json_text = cJSON_PrintUnformatted(json_root);
   if (json_text) {
-    ret = char_buffer_set(out, json_text);
+    ret = char_buffer_set(output, json_text);
     cJSON_free((void *)json_text);
   }
 
@@ -46,12 +44,12 @@ err:
   return ret;
 }
 
-retcode_t json_get_tips_deserialize_response(char const *const obj, get_tips_res_t *res) {
+retcode_t json_get_tips_deserialize_response(void const *const input, get_tips_res_t *res) {
   retcode_t ret = RC_OK;
-  cJSON *json_obj = cJSON_Parse(obj);
+  cJSON *json_obj = cJSON_Parse(input);
   cJSON *json_item = NULL;
 
-  log_debug(json_logger_id, "[%s:%d] %s\n", __func__, __LINE__, obj);
+  log_debug(json_logger_id, "[%s:%d] %s\n", __func__, __LINE__, input);
   JSON_CHECK_ERROR(json_obj, json_item, json_logger_id);
 
   ret = json_array_to_hash243_stack(json_obj, "hashes", &res->hashes);

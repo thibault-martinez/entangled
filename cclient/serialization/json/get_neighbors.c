@@ -43,16 +43,16 @@ static retcode_t neighbor_info_utarray_to_json_array(UT_array const *const ut, c
   return RC_OK;
 }
 
-retcode_t json_get_neighbors_serialize_request(char_buffer_t *out) {
+retcode_t json_get_neighbors_serialize_request(void *const output) {
   retcode_t ret = RC_OK;
   char const *req_text = "{\"command\":\"getNeighbors\"}";
   log_info(json_logger_id, "[%s:%d]\n", __func__, __LINE__);
 
-  ret = char_buffer_set(out, req_text);
+  ret = char_buffer_set(output, req_text);
   return ret;
 }
 
-retcode_t json_get_neighbors_serialize_response(get_neighbors_res_t const *const obj, char_buffer_t *out) {
+retcode_t json_get_neighbors_serialize_response(get_neighbors_res_t const *const obj, void *const output) {
   retcode_t ret = RC_OK;
   char const *json_text = NULL;
 
@@ -69,7 +69,7 @@ retcode_t json_get_neighbors_serialize_response(get_neighbors_res_t const *const
 
   json_text = cJSON_PrintUnformatted(json_root);
   if (json_text) {
-    ret = char_buffer_set(out, json_text);
+    ret = char_buffer_set(output, json_text);
     cJSON_free((void *)json_text);
   }
 
@@ -78,9 +78,9 @@ err:
   return ret;
 }
 
-retcode_t json_get_neighbors_deserialize_response(char const *const obj, get_neighbors_res_t *out) {
+retcode_t json_get_neighbors_deserialize_response(void const *const input, get_neighbors_res_t *out) {
   retcode_t ret = RC_OK;
-  cJSON *json_obj = cJSON_Parse(obj);
+  cJSON *json_obj = cJSON_Parse(input);
   cJSON *json_item = NULL;
   char_buffer_t *addr = char_buffer_new();
   char_buffer_t *connection = char_buffer_new();
@@ -88,7 +88,7 @@ retcode_t json_get_neighbors_deserialize_response(char const *const obj, get_nei
     return RC_CCLIENT_OOM;
   }
 
-  log_debug(json_logger_id, "[%s:%d] %s\n", __func__, __LINE__, obj);
+  log_debug(json_logger_id, "[%s:%d] %s\n", __func__, __LINE__, input);
   JSON_CHECK_ERROR(json_obj, json_item, json_logger_id);
 
   json_item = cJSON_GetObjectItemCaseSensitive(json_obj, "neighbors");

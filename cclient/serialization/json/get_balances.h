@@ -18,10 +18,10 @@ extern "C" {
 #include "cclient/response/get_balances.h"
 #include "cclient/serialization/serializer.h"
 
-retcode_t json_get_balances_serialize_request(get_balances_req_t const* const req, char_buffer_t* out);
-retcode_t json_get_balances_deserialize_request(char const* const obj, get_balances_req_t* const req);
-retcode_t json_get_balances_serialize_response(const get_balances_res_t* const res, char_buffer_t* out);
-retcode_t json_get_balances_deserialize_response(const char* const obj, get_balances_res_t* const res);
+retcode_t json_get_balances_serialize_request(get_balances_req_t const* const req, void* const output);
+retcode_t json_get_balances_deserialize_request(void const* const input, get_balances_req_t* const req);
+retcode_t json_get_balances_serialize_response(const get_balances_res_t* const res, void* const output);
+retcode_t json_get_balances_deserialize_response(void const* const input, get_balances_res_t* const res);
 
 #ifdef __cplusplus
 }

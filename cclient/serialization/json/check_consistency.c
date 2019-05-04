@@ -14,10 +14,9 @@ static const char *kTails = "tails";
 static const char *kInfo = "info";
 static const char *kState = "state";
 
-retcode_t json_check_consistency_serialize_request(check_consistency_req_t const *const obj, char_buffer_t *out) {
+retcode_t json_check_consistency_serialize_request(check_consistency_req_t const *const obj, void *const output) {
   retcode_t ret = RC_OK;
   const char *json_text = NULL;
-  size_t len = 0;
   log_debug(json_logger_id, "[%s:%d]\n", __func__, __LINE__);
 
   cJSON *json_root = cJSON_CreateObject();
@@ -36,11 +35,7 @@ retcode_t json_check_consistency_serialize_request(check_consistency_req_t const
 
   json_text = cJSON_PrintUnformatted(json_root);
   if (json_text) {
-    len = strlen(json_text);
-    ret = char_buffer_allocate(out, len);
-    if (ret == RC_OK) {
-      strncpy(out->data, json_text, len);
-    }
+    ret = char_buffer_set(output, json_text);
     cJSON_free((void *)json_text);
   }
 
@@ -48,10 +43,9 @@ retcode_t json_check_consistency_serialize_request(check_consistency_req_t const
   return ret;
 }
 
-retcode_t json_check_consistency_serialize_response(check_consistency_res_t const *const obj, char_buffer_t *out) {
+retcode_t json_check_consistency_serialize_response(check_consistency_res_t const *const obj, void *const output) {
   retcode_t ret = RC_OK;
   const char *json_text = NULL;
-  size_t len = 0;
   log_debug(json_logger_id, "[%s:%d]\n", __func__, __LINE__);
 
   cJSON *json_root = cJSON_CreateObject();
@@ -68,11 +62,7 @@ retcode_t json_check_consistency_serialize_response(check_consistency_res_t cons
 
   json_text = cJSON_PrintUnformatted(json_root);
   if (json_text) {
-    len = strlen(json_text);
-    ret = char_buffer_allocate(out, len);
-    if (ret == RC_OK) {
-      strncpy(out->data, json_text, len);
-    }
+    ret = char_buffer_set(output, json_text);
     cJSON_free((void *)json_text);
   }
 
@@ -80,12 +70,12 @@ retcode_t json_check_consistency_serialize_response(check_consistency_res_t cons
   return ret;
 }
 
-retcode_t json_check_consistency_deserialize_request(char const *const obj, check_consistency_req_t *out) {
+retcode_t json_check_consistency_deserialize_request(void const *const input, check_consistency_req_t *out) {
   retcode_t ret = RC_OK;
-  cJSON *json_obj = cJSON_Parse(obj);
+  cJSON *json_obj = cJSON_Parse(input);
   cJSON *json_item = NULL;
 
-  log_debug(json_logger_id, "[%s:%d] %s\n", __func__, __LINE__, obj);
+  log_debug(json_logger_id, "[%s:%d] %s\n", __func__, __LINE__, input);
 
   JSON_CHECK_ERROR(json_obj, json_item, json_logger_id);
 
@@ -95,12 +85,12 @@ retcode_t json_check_consistency_deserialize_request(char const *const obj, chec
   return ret;
 }
 
-retcode_t json_check_consistency_deserialize_response(char const *const obj, check_consistency_res_t *out) {
+retcode_t json_check_consistency_deserialize_response(void const *const input, check_consistency_res_t *out) {
   retcode_t ret = RC_OK;
-  cJSON *json_obj = cJSON_Parse(obj);
+  cJSON *json_obj = cJSON_Parse(input);
   cJSON *json_item = NULL;
 
-  log_debug(json_logger_id, "[%s:%d] %s\n", __func__, __LINE__, obj);
+  log_debug(json_logger_id, "[%s:%d] %s\n", __func__, __LINE__, input);
 
   JSON_CHECK_ERROR(json_obj, json_item, json_logger_id);
 
