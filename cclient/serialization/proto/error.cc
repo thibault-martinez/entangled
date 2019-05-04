@@ -7,7 +7,7 @@
 
 #include "cclient/serialization/proto/error.h"
 
-retcode_t proto_error_serialize_response(error_res_t const *const obj, char_buffer_t *out) {
+retcode_t proto_error_serialize_response(error_res_t const* const res, void* const output) {
   retcode_t ret = RC_OK;
 
   return ret;

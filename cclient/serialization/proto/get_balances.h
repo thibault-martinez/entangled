@@ -16,8 +16,8 @@
 extern "C" {
 #endif
 
-retcode_t proto_get_balances_deserialize_request(char const* const obj, get_balances_req_t* const req);
-retcode_t proto_get_balances_serialize_response(get_balances_res_t const* const res, char_buffer_t* out);
+retcode_t proto_get_balances_deserialize_request(void const* const input, get_balances_req_t* const req);
+retcode_t proto_get_balances_serialize_response(get_balances_res_t const* const res, void* const output);
 
 #ifdef __cplusplus
 }

@@ -16,10 +16,10 @@
 extern "C" {
 #endif
 
-retcode_t proto_get_transactions_to_approve_deserialize_request(char const* const obj,
-                                                                get_transactions_to_approve_req_t* out);
-retcode_t proto_get_transactions_to_approve_serialize_response(get_transactions_to_approve_res_t const* const obj,
-                                                               char_buffer_t* out);
+retcode_t proto_get_transactions_to_approve_deserialize_request(void const* const input,
+                                                                get_transactions_to_approve_req_t* const req);
+retcode_t proto_get_transactions_to_approve_serialize_response(get_transactions_to_approve_res_t const* const res,
+                                                               void* const output);
 
 #ifdef __cplusplus
 }

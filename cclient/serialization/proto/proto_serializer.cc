@@ -93,4 +93,4 @@ static serializer_vtable proto_vtable = {
 
 };
 
-void init_proto_serializer(serializer_t *serializer) { serializer->vtable = proto_vtable; }
+void init_proto_serializer(serializer_t* const serializer) { serializer->vtable = proto_vtable; }

@@ -15,7 +15,7 @@
 extern "C" {
 #endif
 
-retcode_t proto_get_tips_serialize_response(get_tips_res_t const* const res, char_buffer_t* out);
+retcode_t proto_get_tips_serialize_response(get_tips_res_t const* const res, void* const output);
 
 #ifdef __cplusplus
 }

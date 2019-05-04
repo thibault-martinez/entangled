@@ -7,13 +7,13 @@
 
 #include "cclient/serialization/proto/get_balances.h"
 
-retcode_t proto_get_balances_deserialize_request(char const *const obj, get_balances_req_t *const req) {
+retcode_t proto_get_balances_deserialize_request(void const *const input, get_balances_req_t *const req) {
   retcode_t ret = RC_OK;
 
   return ret;
 }
 
-retcode_t proto_get_balances_serialize_response(get_balances_res_t const *const res, char_buffer_t *out) {
+retcode_t proto_get_balances_serialize_response(get_balances_res_t const *const res, void *const output) {
   retcode_t ret = RC_OK;
 
   return ret;

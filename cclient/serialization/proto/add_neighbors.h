@@ -16,8 +16,8 @@
 extern "C" {
 #endif
 
-retcode_t proto_add_neighbors_serialize_response(add_neighbors_res_t const* const obj, char_buffer_t* out);
-retcode_t proto_add_neighbors_deserialize_request(char const* const obj, add_neighbors_req_t* out);
+retcode_t proto_add_neighbors_serialize_response(add_neighbors_res_t const* const res, void* const output);
+retcode_t proto_add_neighbors_deserialize_request(void const* const input, add_neighbors_req_t* const req);
 
 #ifdef __cplusplus
 }

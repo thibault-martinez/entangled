@@ -14,7 +14,7 @@
 extern "C" {
 #endif
 
-void init_proto_serializer(serializer_t* serializer);
+void init_proto_serializer(serializer_t* const serializer);
 
 #ifdef __cplusplus
 }

@@ -7,15 +7,15 @@
 
 #include "cclient/serialization/proto/get_transactions_to_approve.h"
 
-retcode_t proto_get_transactions_to_approve_deserialize_request(char const *const obj,
-                                                                get_transactions_to_approve_req_t *out) {
+retcode_t proto_get_transactions_to_approve_deserialize_request(void const *const input,
+                                                                get_transactions_to_approve_req_t *const req) {
   retcode_t ret = RC_OK;
 
   return ret;
 }
 
-retcode_t proto_get_transactions_to_approve_serialize_response(get_transactions_to_approve_res_t const *const obj,
-                                                               char_buffer_t *out) {
+retcode_t proto_get_transactions_to_approve_serialize_response(get_transactions_to_approve_res_t const *const res,
+                                                               void *const output) {
   retcode_t ret = RC_OK;
 
   return ret;

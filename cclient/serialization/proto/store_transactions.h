@@ -15,7 +15,7 @@
 extern "C" {
 #endif
 
-retcode_t proto_store_transactions_deserialize_request(char const* const obj, store_transactions_req_t* const out);
+retcode_t proto_store_transactions_deserialize_request(void const* const input, store_transactions_req_t* const req);
 
 #ifdef __cplusplus
 }
