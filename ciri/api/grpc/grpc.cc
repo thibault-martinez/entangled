@@ -6,29 +6,28 @@
  */
 
 #include "ciri/api/grpc/grpc.h"
-#include "cclient/request/requests.h"
-#include "cclient/response/responses.h"
-#include "ciri/api/api.h"
+#include "ciri/api/grpc/server.h"
 #include "utils/logger_helper.h"
 
-#define API_GRPC_LOGGER_ID "api_grpc"
+#define GRPC_API_LOGGER_ID "grpc_api"
 
 static logger_id_t logger_id;
 
-retcode_t iota_api_grpc_init(iota_api_grpc_t *const grpc, iota_api_t *const api) {
+retcode_t iota_api_grpc_init(iota_api_grpc_t* const grpc, iota_api_t* const api) {
   if (grpc == NULL || api == NULL) {
     return RC_NULL_PARAM;
   }
 
-  logger_id = logger_helper_enable(API_GRPC_LOGGER_ID, LOGGER_DEBUG, true);
+  logger_id = logger_helper_enable(GRPC_API_LOGGER_ID, LOGGER_DEBUG, true);
 
   grpc->running = false;
   grpc->api = api;
+  grpc->server = new API::Server(grpc);
 
   return RC_OK;
 }
 
-retcode_t iota_api_grpc_start(iota_api_grpc_t *const grpc) {
+retcode_t iota_api_grpc_start(iota_api_grpc_t* const grpc) {
   if (grpc == NULL) {
     return RC_NULL_PARAM;
   } else if (grpc->running == true) {
@@ -36,11 +35,12 @@ retcode_t iota_api_grpc_start(iota_api_grpc_t *const grpc) {
   }
 
   grpc->running = true;
+  static_cast<API::Server*>(grpc->server)->start();
 
   return RC_OK;
 }
 
-retcode_t iota_api_grpc_stop(iota_api_grpc_t *const grpc) {
+retcode_t iota_api_grpc_stop(iota_api_grpc_t* const grpc) {
   if (grpc == NULL) {
     return RC_NULL_PARAM;
   } else if (grpc->running == false) {
@@ -48,16 +48,19 @@ retcode_t iota_api_grpc_stop(iota_api_grpc_t *const grpc) {
   }
 
   grpc->running = false;
+  static_cast<API::Server*>(grpc->server)->stop();
 
   return RC_OK;
 }
 
-retcode_t iota_api_grpc_destroy(iota_api_grpc_t *const grpc) {
+retcode_t iota_api_grpc_destroy(iota_api_grpc_t* const grpc) {
   if (grpc == NULL) {
     return RC_NULL_PARAM;
   } else if (grpc->running) {
     return RC_STILL_RUNNING;
   }
+
+  delete static_cast<API::Server*>(grpc->server);
 
   logger_helper_release(logger_id);
 

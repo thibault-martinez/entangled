@@ -2,15 +2,24 @@ package(default_visibility = ["//visibility:public"])
 
 cc_library(
     name = "grpc",
-    srcs = ["grpc.cpp"],
+    srcs = ["grpc.cc"],
+    deps = [
+        ":grpc_shared",
+        ":server",
+        "//utils:logger_helper",
+    ],
+)
+
+cc_library(
+    name = "grpc_shared",
     hdrs = ["grpc.h"],
     deps = [
-        "//cclient/request:requests",
-        "//cclient/response:responses",
         "//cclient/serialization:serializer",
         "//ciri/api",
         "//common:errors",
-        "//utils:logger_helper",
+    ],
+)
+
         "@com_github_grpc_grpc//:grpc++",
     ],
 )

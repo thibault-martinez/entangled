@@ -25,6 +25,7 @@ cc_binary(
     deps = [
         ":core",
         "//ciri/api",
+        "//ciri/api/grpc",
         "//ciri/api/http",
         "//utils/handles:rand",
         "//utils/handles:signal",
