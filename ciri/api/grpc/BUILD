@@ -20,6 +20,14 @@ cc_library(
     ],
 )
 
+cc_library(
+    name = "server",
+    hdrs = ["server.h"],
+    deps = [
+        ":service",
+    ],
+)
+
         "@com_github_grpc_grpc//:grpc++",
     ],
 )
