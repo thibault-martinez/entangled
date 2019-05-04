@@ -6,6 +6,7 @@
  */
 
 #include "ciri/api/grpc/grpc.h"
+#include "cclient/serialization/proto/proto_serializer.h"
 #include "ciri/api/grpc/server.h"
 #include "utils/logger_helper.h"
 
@@ -23,6 +24,7 @@ retcode_t iota_api_grpc_init(iota_api_grpc_t* const grpc, iota_api_t* const api)
   grpc->running = false;
   grpc->api = api;
   grpc->server = new API::Server(grpc);
+  init_proto_serializer(&grpc->serializer);
 
   return RC_OK;
 }
