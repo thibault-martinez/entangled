@@ -16,8 +16,8 @@
 extern "C" {
 #endif
 
-retcode_t proto_attach_to_tangle_serialize_response(attach_to_tangle_res_t const *const res, void *const output);
 retcode_t proto_attach_to_tangle_deserialize_request(void const *const input, attach_to_tangle_req_t *const req);
+retcode_t proto_attach_to_tangle_serialize_response(attach_to_tangle_res_t const *const res, void *const output);
 
 #ifdef __cplusplus
 }
