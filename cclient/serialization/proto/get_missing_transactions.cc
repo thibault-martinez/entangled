@@ -10,8 +10,11 @@
 
 retcode_t proto_get_missing_transactions_serialize_response(get_missing_transactions_res_t const* const res,
                                                             void* const output) {
-  retcode_t ret = RC_OK;
   auto response = static_cast<API::RPC::getMissingTransactionsResponse* const>(output);
 
-  return ret;
+  if (res == NULL || output == NULL) {
+    return RC_NULL_PARAM;
+  }
+
+  return RC_OK;
 }

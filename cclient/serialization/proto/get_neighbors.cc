@@ -11,10 +11,13 @@
 // #include <iostream>
 
 retcode_t proto_get_neighbors_serialize_response(get_neighbors_res_t const *const res, void *const output) {
-  retcode_t ret = RC_OK;
   // neighbor_info_t *iter = NULL;
   auto response = static_cast<API::RPC::getNeighborsResponse *const>(output);
-  //
+
+  if (res == NULL || output == NULL) {
+    return RC_NULL_PARAM;
+  }
+
   // while ((iter = (neighbor_info_t *)utarray_next(res, iter))) {
   //   auto neighbor = response->add_neighbors();
   //   neighbor->set_address(iter->address->data);
@@ -27,5 +30,5 @@ retcode_t proto_get_neighbors_serialize_response(get_neighbors_res_t const *cons
   //   neighbor->set_connectiontype(iter->connection_type->data);
   // }
 
-  return ret;
+  return RC_OK;
 }

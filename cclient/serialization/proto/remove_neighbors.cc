@@ -9,15 +9,21 @@
 #include "ciri/api/grpc/proto/messages.pb.h"
 
 retcode_t proto_remove_neighbors_deserialize_request(void const *const input, remove_neighbors_req_t *const req) {
-  retcode_t ret = RC_OK;
   auto request = static_cast<API::RPC::removeNeighborsRequest const *const>(input);
 
-  return ret;
+  if (input == NULL || req == NULL) {
+    return RC_NULL_PARAM;
+  }
+
+  return RC_OK;
 }
 
 retcode_t proto_remove_neighbors_serialize_response(remove_neighbors_res_t const *const res, void *const output) {
-  retcode_t ret = RC_OK;
   auto response = static_cast<API::RPC::removeNeighborsResponse *const>(output);
 
-  return ret;
+  if (res == NULL || output == NULL) {
+    return RC_NULL_PARAM;
+  }
+
+  return RC_OK;
 }
