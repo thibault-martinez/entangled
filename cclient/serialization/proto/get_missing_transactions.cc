@@ -6,10 +6,12 @@
  */
 
 #include "cclient/serialization/proto/get_missing_transactions.h"
+#include "ciri/api/grpc/proto/messages.pb.h"
 
 retcode_t proto_get_missing_transactions_serialize_response(get_missing_transactions_res_t const* const res,
                                                             void* const output) {
   retcode_t ret = RC_OK;
+  auto response = static_cast<API::RPC::getMissingTransactionsResponse* const>(output);
 
   return ret;
 }

@@ -6,9 +6,11 @@
  */
 
 #include "cclient/serialization/proto/get_node_info.h"
+#include "ciri/api/grpc/proto/messages.pb.h"
 
 retcode_t proto_get_node_info_serialize_response(get_node_info_res_t const* const res, void* const output) {
   retcode_t ret = RC_OK;
+  auto response = static_cast<API::RPC::getNodeInfoResponse* const>(output);
 
   return ret;
 }
