@@ -25,5 +25,7 @@ retcode_t proto_remove_neighbors_serialize_response(remove_neighbors_res_t const
     return RC_NULL_PARAM;
   }
 
+  response->set_removedneighbors(res->removed_neighbors);
+
   return RC_OK;
 }

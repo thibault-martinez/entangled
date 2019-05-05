@@ -25,5 +25,8 @@ retcode_t proto_check_consistency_serialize_response(check_consistency_res_t con
     return RC_NULL_PARAM;
   }
 
+  response->set_state(res->state);
+  response->set_info(res->info->data);
+
   return RC_OK;
 }

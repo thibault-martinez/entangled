@@ -25,5 +25,7 @@ retcode_t proto_add_neighbors_serialize_response(add_neighbors_res_t const *cons
     return RC_NULL_PARAM;
   }
 
+  response->set_addedneighbors(res->added_neighbors);
+
   return RC_OK;
 }
