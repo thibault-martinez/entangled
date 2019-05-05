@@ -93,4 +93,12 @@ static serializer_vtable proto_vtable = {
 
 };
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 void init_proto_serializer(serializer_t* const serializer) { serializer->vtable = proto_vtable; }
+
+#ifdef __cplusplus
+}
+#endif
