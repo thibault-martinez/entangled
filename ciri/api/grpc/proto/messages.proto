@@ -20,7 +20,7 @@ message attachToTangleResponse {
 }
 
 message broadcastTransactionsRequest {
-  string trytes = 1;
+  repeated string trytes = 1;
 }
 message broadcastTransactionsResponse {
 }
