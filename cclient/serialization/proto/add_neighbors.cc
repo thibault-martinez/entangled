@@ -9,10 +9,17 @@
 #include "ciri/api/grpc/proto/messages.pb.h"
 
 retcode_t proto_add_neighbors_deserialize_request(void const *const input, add_neighbors_req_t *const req) {
+  retcode_t ret = RC_OK;
   auto request = static_cast<API::RPC::addNeighborsRequest const *const>(input);
 
   if (input == NULL || req == NULL) {
     return RC_NULL_PARAM;
+  }
+
+  for (auto &uri : request->uris()) {
+    if ((ret = add_neighbors_req_uris_add(req, uri.c_str())) != RC_OK) {
+      return ret;
+    }
   }
 
   return RC_OK;
