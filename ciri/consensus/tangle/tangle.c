@@ -7,6 +7,7 @@
 
 #include <inttypes.h>
 
+#include "ciri/consensus/tangle/flex_trit_t_to_iota_transaction_t_map.h"
 #include "ciri/consensus/tangle/tangle.h"
 #include "utils/logger_helper.h"
 
