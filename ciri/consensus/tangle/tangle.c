@@ -14,13 +14,35 @@
 #define TANGLE_LOGGER_ID "tangle"
 
 static logger_id_t logger_id;
+static flex_trit_t_to_iota_transaction_t_map_t *tangle_cache = NULL;
 
 retcode_t iota_tangle_init(tangle_t *const tangle, storage_connection_config_t const *const conf) {
+  retcode_t ret = RC_OK;
+
+  if (tangle_cache == NULL) {
+    if ((tangle_cache = malloc(sizeof(flex_trit_t_to_iota_transaction_t_map_t))) == NULL) {
+      return RC_OOM;
+    }
+    if ((ret = flex_trit_t_to_iota_transaction_t_map_init(tangle_cache, FLEX_TRIT_SIZE_243,
+                                                          sizeof(iota_transaction_t))) != RC_OK) {
+      return ret;
+    }
+  }
+
   logger_id = logger_helper_enable(TANGLE_LOGGER_ID, LOGGER_DEBUG, true);
   return storage_connection_init(&tangle->connection, conf, STORAGE_CONNECTION_TANGLE);
 }
 
 retcode_t iota_tangle_destroy(tangle_t *const tangle) {
+  retcode_t ret = RC_OK;
+
+  if (tangle_cache != NULL) {
+    if ((ret = flex_trit_t_to_iota_transaction_t_map_free(tangle_cache)) != RC_OK) {
+      return ret;
+    }
+    tangle_cache = NULL;
+  }
+
   logger_helper_release(logger_id);
   return storage_connection_destroy(&tangle->connection);
 }
