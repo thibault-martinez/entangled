@@ -70,8 +70,10 @@ retcode_t iota_tangle_transaction_load(tangle_t const *const tangle, storage_tra
   bool found = false;
   flex_trit_t_to_iota_transaction_t_map_entry_t *entry = NULL;
 
-  if ((found = flex_trit_t_to_iota_transaction_t_map_find(*tangle_cache, key, &entry))) {
-    return RC_OK;
+  if (tangle_cache) {
+    if ((found = flex_trit_t_to_iota_transaction_t_map_find(*tangle_cache, key, &entry))) {
+      return RC_OK;
+    }
   }
 
   return storage_transaction_load(&tangle->connection, field, key, tx);
