@@ -52,7 +52,7 @@ retcode_t iota_tangle_transaction_count(tangle_t const *const tangle, uint64_t *
 retcode_t iota_tangle_transaction_store(tangle_t const *const tangle, iota_transaction_t const *const tx);
 
 retcode_t iota_tangle_transaction_load(tangle_t const *const tangle, storage_transaction_field_t const field,
-                                       flex_trit_t const *const key, iota_stor_pack_t *const tx);
+                                       flex_trit_t const *const key, iota_stor_pack_t *const pack);
 
 retcode_t iota_tangle_transaction_load_hashes_of_approvers(tangle_t const *const tangle,
                                                            flex_trit_t const *const approvee_hash,

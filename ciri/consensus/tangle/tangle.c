@@ -70,18 +70,21 @@ retcode_t iota_tangle_transaction_store(tangle_t const *const tangle, iota_trans
 }
 
 retcode_t iota_tangle_transaction_load(tangle_t const *const tangle, storage_transaction_field_t const field,
-                                       flex_trit_t const *const key, iota_stor_pack_t *const tx) {
+                                       flex_trit_t const *const key, iota_stor_pack_t *const pack) {
   bool found = false;
   flex_trit_t_to_iota_transaction_t_map_entry_t *entry = NULL;
 
   if (tangle_cache) {
     if ((found = flex_trit_t_to_iota_transaction_t_map_find(*tangle_cache, key, &entry))) {
-      memcpy(tx, entry->value, sizeof(iota_transaction_t));
+      // TODO check capacity
+      // TODO set insufficient_capacity
+      memcpy(pack->models[0], entry->value, sizeof(iota_transaction_t));
+      pack->num_loaded = 1;
       return RC_OK;
     }
   }
 
-  return storage_transaction_load(&tangle->connection, field, key, tx);
+  return storage_transaction_load(&tangle->connection, field, key, pack);
 }
 
 retcode_t iota_tangle_transaction_update_solidity(tangle_t const *const tangle, flex_trit_t const *const hash,
