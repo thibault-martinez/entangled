@@ -73,8 +73,11 @@ retcode_t iota_tangle_transaction_store(tangle_t const *const tangle, iota_trans
     if ((ret = flex_trit_t_to_iota_transaction_t_map_add(tangle_cache, transaction_hash(tx), tx)) != RC_OK) {
       return ret;
     }
+    // TODO if maxed out then flush
+    return ret;
   }
 
+  // else
   return storage_transaction_store(&tangle->connection, tx);
 }
 
