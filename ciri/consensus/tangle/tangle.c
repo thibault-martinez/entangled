@@ -40,6 +40,7 @@ retcode_t iota_tangle_destroy(tangle_t *const tangle) {
     if ((ret = flex_trit_t_to_iota_transaction_t_map_free(tangle_cache)) != RC_OK) {
       return ret;
     }
+    free(tangle_cache);
     tangle_cache = NULL;
   }
 
