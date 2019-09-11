@@ -74,6 +74,7 @@ retcode_t iota_tangle_transaction_load(tangle_t const *const tangle, storage_tra
 
   if (tangle_cache) {
     if ((found = flex_trit_t_to_iota_transaction_t_map_find(*tangle_cache, key, &entry))) {
+      memcpy(tx, entry->value, sizeof(iota_transaction_t));
       return RC_OK;
     }
   }
