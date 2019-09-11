@@ -154,17 +154,32 @@ retcode_t iota_tangle_transaction_load_hashes_of_approvers(tangle_t const *const
 
 retcode_t iota_tangle_transaction_load_partial(tangle_t const *const tangle, flex_trit_t const *const hash,
                                                iota_stor_pack_t *const pack, partial_transaction_model_e models_mask) {
-  if (models_mask == PARTIAL_TX_MODEL_METADATA) {
-    return storage_transaction_load_metadata(&tangle->connection, hash, pack);
-  } else if (models_mask == PARTIAL_TX_MODEL_ESSENCE_METADATA) {
-    return storage_transaction_load_essence_metadata(&tangle->connection, hash, pack);
-  } else if (models_mask == PARTIAL_TX_MODEL_ESSENCE_ATTACHMENT_METADATA) {
-    return storage_transaction_load_essence_attachment_metadata(&tangle->connection, hash, pack);
-  } else if (models_mask == PARTIAL_TX_MODEL_ESSENCE_CONSENSUS) {
-    return storage_transaction_load_essence_consensus(&tangle->connection, hash, pack);
+  if (tangle_cache) {
+    bool found = false;
+    flex_trit_t_to_iota_transaction_t_map_entry_t *entry = NULL;
+
+    if ((found = flex_trit_t_to_iota_transaction_t_map_find(*tangle_cache, hash, &entry))) {
+      // TODO check capacity
+      // TODO set insufficient_capacity
+      memcpy(pack->models[0], entry->value, sizeof(iota_transaction_t));
+      pack->num_loaded = 1;
+      return RC_OK;
+    }
   } else {
-    return RC_CONSENSUS_NOT_IMPLEMENTED;
+    if (models_mask == PARTIAL_TX_MODEL_METADATA) {
+      return storage_transaction_load_metadata(&tangle->connection, hash, pack);
+    } else if (models_mask == PARTIAL_TX_MODEL_ESSENCE_METADATA) {
+      return storage_transaction_load_essence_metadata(&tangle->connection, hash, pack);
+    } else if (models_mask == PARTIAL_TX_MODEL_ESSENCE_ATTACHMENT_METADATA) {
+      return storage_transaction_load_essence_attachment_metadata(&tangle->connection, hash, pack);
+    } else if (models_mask == PARTIAL_TX_MODEL_ESSENCE_CONSENSUS) {
+      return storage_transaction_load_essence_consensus(&tangle->connection, hash, pack);
+    } else {
+      return RC_CONSENSUS_NOT_IMPLEMENTED;
+    }
   }
+
+  return RC_OK;
 }
 
 retcode_t iota_tangle_transaction_load_hashes_of_milestone_candidates(tangle_t const *const tangle,
