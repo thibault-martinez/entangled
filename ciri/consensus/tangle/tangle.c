@@ -165,18 +165,18 @@ retcode_t iota_tangle_transaction_load_partial(tangle_t const *const tangle, fle
       pack->num_loaded = 1;
       return RC_OK;
     }
+  }
+
+  if (models_mask == PARTIAL_TX_MODEL_METADATA) {
+    return storage_transaction_load_metadata(&tangle->connection, hash, pack);
+  } else if (models_mask == PARTIAL_TX_MODEL_ESSENCE_METADATA) {
+    return storage_transaction_load_essence_metadata(&tangle->connection, hash, pack);
+  } else if (models_mask == PARTIAL_TX_MODEL_ESSENCE_ATTACHMENT_METADATA) {
+    return storage_transaction_load_essence_attachment_metadata(&tangle->connection, hash, pack);
+  } else if (models_mask == PARTIAL_TX_MODEL_ESSENCE_CONSENSUS) {
+    return storage_transaction_load_essence_consensus(&tangle->connection, hash, pack);
   } else {
-    if (models_mask == PARTIAL_TX_MODEL_METADATA) {
-      return storage_transaction_load_metadata(&tangle->connection, hash, pack);
-    } else if (models_mask == PARTIAL_TX_MODEL_ESSENCE_METADATA) {
-      return storage_transaction_load_essence_metadata(&tangle->connection, hash, pack);
-    } else if (models_mask == PARTIAL_TX_MODEL_ESSENCE_ATTACHMENT_METADATA) {
-      return storage_transaction_load_essence_attachment_metadata(&tangle->connection, hash, pack);
-    } else if (models_mask == PARTIAL_TX_MODEL_ESSENCE_CONSENSUS) {
-      return storage_transaction_load_essence_consensus(&tangle->connection, hash, pack);
-    } else {
-      return RC_CONSENSUS_NOT_IMPLEMENTED;
-    }
+    return RC_CONSENSUS_NOT_IMPLEMENTED;
   }
 
   return RC_OK;
