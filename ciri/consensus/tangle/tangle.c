@@ -52,6 +52,8 @@ retcode_t iota_tangle_destroy(tangle_t *const tangle) {
  * Transaction operations
  */
 
+// TODO cache flush
+
 retcode_t iota_tangle_transaction_count(tangle_t const *const tangle, uint64_t *const count) {
   retcode_t ret = storage_transaction_count(&tangle->connection, count);
 
@@ -159,9 +161,37 @@ retcode_t iota_tangle_transaction_load_partial(tangle_t const *const tangle, fle
     flex_trit_t_to_iota_transaction_t_map_entry_t *entry = NULL;
 
     if ((found = flex_trit_t_to_iota_transaction_t_map_find(*tangle_cache, hash, &entry))) {
+      if (models_mask == PARTIAL_TX_MODEL_METADATA) {
+        memcpy(&((iota_transaction_t *)(pack->models[0]))->metadata, &((iota_transaction_t *)(entry->value))->metadata,
+               sizeof(iota_transaction_fields_metadata_t));
+        ((iota_transaction_t *)(pack->models[0]))->loaded_columns_mask.metadata |= MASK_METADATA_ALL;
+      } else if (models_mask == PARTIAL_TX_MODEL_ESSENCE_METADATA) {
+        memcpy(&((iota_transaction_t *)(pack->models[0]))->essence, &((iota_transaction_t *)(entry->value))->essence,
+               sizeof(iota_transaction_fields_essence_t));
+        ((iota_transaction_t *)(pack->models[0]))->loaded_columns_mask.essence |= MASK_ESSENCE_ALL;
+        memcpy(&((iota_transaction_t *)(pack->models[0]))->metadata, &((iota_transaction_t *)(entry->value))->metadata,
+               sizeof(iota_transaction_fields_metadata_t));
+        ((iota_transaction_t *)(pack->models[0]))->loaded_columns_mask.metadata |= MASK_METADATA_ALL;
+      } else if (models_mask == PARTIAL_TX_MODEL_ESSENCE_ATTACHMENT_METADATA) {
+        memcpy(&((iota_transaction_t *)(pack->models[0]))->essence, &((iota_transaction_t *)(entry->value))->essence,
+               sizeof(iota_transaction_fields_essence_t));
+        ((iota_transaction_t *)(pack->models[0]))->loaded_columns_mask.essence |= MASK_ESSENCE_ALL;
+        memcpy(&((iota_transaction_t *)(pack->models[0]))->attachment,
+               &((iota_transaction_t *)(entry->value))->attachment, sizeof(iota_transaction_fields_attachment_t));
+        ((iota_transaction_t *)(pack->models[0]))->loaded_columns_mask.attachment |= MASK_ATTACHMENT_ALL;
+        memcpy(&((iota_transaction_t *)(pack->models[0]))->metadata, &((iota_transaction_t *)(entry->value))->metadata,
+               sizeof(iota_transaction_fields_metadata_t));
+        ((iota_transaction_t *)(pack->models[0]))->loaded_columns_mask.metadata |= MASK_METADATA_ALL;
+      } else if (models_mask == PARTIAL_TX_MODEL_ESSENCE_CONSENSUS) {
+        memcpy(&((iota_transaction_t *)(pack->models[0]))->consensus,
+               &((iota_transaction_t *)(entry->value))->consensus, sizeof(iota_transaction_fields_consensus_t));
+        ((iota_transaction_t *)(pack->models[0]))->loaded_columns_mask.consensus |= MASK_CONSENSUS_ALL;
+      } else {
+        return RC_CONSENSUS_NOT_IMPLEMENTED;
+      }
       // TODO check capacity
       // TODO set insufficient_capacity
-      memcpy(pack->models[0], entry->value, sizeof(iota_transaction_t));
+
       pack->num_loaded = 1;
       return RC_OK;
     }

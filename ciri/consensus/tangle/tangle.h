@@ -32,7 +32,6 @@ typedef struct tangle_s {
 } tangle_t;
 
 typedef enum _partial_transaction_model {
-
   PARTIAL_TX_MODEL_METADATA,
   PARTIAL_TX_MODEL_ESSENCE_METADATA,
   PARTIAL_TX_MODEL_ESSENCE_ATTACHMENT_METADATA,
