@@ -253,6 +253,14 @@ retcode_t iota_tangle_transactions_update_snapshot_index(tangle_t const *const t
 
 retcode_t iota_tangle_transaction_exist(tangle_t const *const tangle, storage_transaction_field_t const field,
                                         flex_trit_t const *const key, bool *const exist) {
+  flex_trit_t_to_iota_transaction_t_map_entry_t *entry = NULL;
+
+  if (tangle_cache) {
+    if ((*exist = flex_trit_t_to_iota_transaction_t_map_find(*tangle_cache, key, &entry))) {
+      return RC_OK;
+    }
+  }
+
   return storage_transaction_exist(&tangle->connection, field, key, exist);
 }
 
