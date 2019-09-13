@@ -92,7 +92,12 @@ retcode_t iota_tangle_transaction_load(tangle_t const *const tangle, storage_tra
     if ((found = flex_trit_t_to_iota_transaction_t_map_find(*tangle_cache, key, &entry))) {
       // TODO check capacity
       // TODO set insufficient_capacity
+      // TODO reset ?
       memcpy(pack->models[0], entry->value, sizeof(iota_transaction_t));
+      ((iota_transaction_t *)(pack->models[0]))->loaded_columns_mask.essence |= MASK_ESSENCE_ALL;
+      ((iota_transaction_t *)(pack->models[0]))->loaded_columns_mask.attachment |= MASK_ATTACHMENT_ALL;
+      ((iota_transaction_t *)(pack->models[0]))->loaded_columns_mask.consensus |= MASK_CONSENSUS_ALL;
+      ((iota_transaction_t *)(pack->models[0]))->loaded_columns_mask.data |= MASK_DATA_ALL;
       pack->num_loaded = 1;
       return RC_OK;
     }
